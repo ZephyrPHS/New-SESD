@@ -60,6 +60,9 @@ document.getElementById('export-csv').addEventListener('click', function() {
   exportData();
   
 });
+document.getElementById('search-button').addEventListener('click', function() {
+  searchStudent();
+});
 document.getElementById('add-form').addEventListener('submit', function(event) {
     event.preventDefault();
     var myname = document.getElementById('add-name').value;
@@ -97,7 +100,38 @@ function cancelEdit() {
 function cancelAdd() {
   document.getElementById('add-form').style.display = 'none';
 }
-
+function searchStudent(){
+  document.getElementById('data-table').style.display = 'none';
+  document.getElementById('search-table').style.display = 'table';
+  var searchTableRef = document.getElementById('search-table').getElementsByTagName('tbody')[0];
+  var searchRef = document.getElementById('search-bar').value;
+  dataRef.on('value', function(snapshot) {
+    searchTableRef.innerHTML = '';
+    snapshot.forEach(function(childSnapshot) {
+      var childKey = childSnapshot.key;
+      var childData = childSnapshot.val();
+      if (searchRef == childData.name || searchRef == childData.grade || searchRef == childData.id || searchRef == childData.disability || searchRef == childData.manager || searchRef == childData.date){
+        var row = searchTableRef.insertRow();
+        var nameCell = row.insertCell();
+        nameCell.textContent = childData.name;
+        var gradeCell = row.insertCell();
+        gradeCell.textContent = childData.grade;
+        var idCell = row.insertCell();
+        idCell.textContent = childData.id;
+        var disabilityCell = row.insertCell();
+        disabilityCell.textContent = childData.disability;
+        var managerCell = row.insertCell();
+        managerCell.textContent = childData.manager;
+        var dateCell = row.insertCell();
+        dateCell.textContent = childData.date;}
+      
+    });
+  });  
+}
+function clearSearch(){
+  document.getElementById('data-table').style.display = 'table';
+  document.getElementById('search-table').style.display = 'none';
+}
 document.getElementById('edit-form').addEventListener('submit', function(event) {
   event.preventDefault();
 

@@ -18,7 +18,10 @@
 <body>
   <h1>Special Education Student Database</h1>
   <button type = "submit" id = "export-csv">Export as CSV</button>
-  <button id="add-student-button">Add Student</button>
+  <button id="add-student-button">Add Student</button><br>
+  <input type="text" id="search-bar" placeholder="Search:">
+  <button id="search-button">Search</button>
+  <button id="clear-button" onclick="clearSearch()">Clear Search</button>
   <form id="edit-form" style="display: none;">
     <input type="hidden" id="edit-id">
     <label for="edit-name">Name:</label>
@@ -54,6 +57,20 @@
     <button type="button" onclick="cancelAdd()">Cancel</button>
   </form>
   <table id="data-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Grade</th>
+        <th>ID</th>
+        <th>Disability</th>
+        <th>Manager</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <table id="search-table" style = "display: none;">
     <thead>
       <tr>
         <th>Name</th>
