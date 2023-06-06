@@ -43,6 +43,13 @@ dataRef.on('value', function(snapshot) {
         database.ref('students/' + childKey).remove()
     });
     actionsCell.appendChild(deleteButton);
+    var goalsButton = document.createElement('button');
+    goalsButton.textContent = 'View';
+    
+    //goalsButton.addEventListener('click', function() {
+      //<a href="goals_database.html"></a>
+  //});
+    actionsCell.appendChild(goalsButton);
   });
 });
 document.getElementById('add-student-button').addEventListener('click', function() {

@@ -1,4 +1,5 @@
 var studentId = 188513;
+var goalNo = 1;
 var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
@@ -15,7 +16,9 @@ var tableRef = document.getElementById('data-table').getElementsByTagName('tbody
 var dataRef = database.ref('students');
 var studentRef = dataRef.child(studentId);
 var goalsRef = studentRef.child('goals');
-goalsRef.on('value', function(snapshot) {
+var specificGoalRef = goalsRef.child(goalNo);
+var objRef = specificGoalRef.child('objectives');
+objRef.on('value', function(snapshot) {
   tableRef.innerHTML = '';
   snapshot.forEach(function(childSnapshot) {
     var childKey = childSnapshot.key;
@@ -25,8 +28,6 @@ goalsRef.on('value', function(snapshot) {
     numCell.textContent = childKey;
     var nameCell = row.insertCell();
     nameCell.textContent = childData.name;
-    var categoryCell = row.insertCell();
-    categoryCell.textContent = childData.category;
     var progressCell = row.insertCell();
     progressCell.textContent = childData.progress;
     var notesCell = row.insertCell();
@@ -41,12 +42,9 @@ goalsRef.on('value', function(snapshot) {
     var deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', function() {
-        database.ref('students/'+studentId+'/'+'goals/' + childKey).remove()
+        database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives'+childKey).remove()
     });
     actionsCell.appendChild(deleteButton);
-    var goalsButton = document.createElement('button');
-    goalsButton.textContent = 'View';
-    actionsCell.appendChild(goalsButton);
   });
 });
 document.getElementById('add-student-button').addEventListener('click', function() {
@@ -57,26 +55,23 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
     event.preventDefault();
     var mynum = document.getElementById('add-num').value;
     var myname = document.getElementById('add-name').value;
-    var mycategory = document.getElementById('add-category').value;
     var myprogress = document.getElementById('add-progress').value;
     var mynotes = document.getElementById('add-notes').value;
     var newgoal = {
         num: mynum,
         name: myname,
-        category: mycategory,
         progress: myprogress,
         notes: mynotes
     };
-    database.ref('students/'+studentId+'/'+'goals/').child(mynum).set(newgoal);
+    database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives').child(mynum).set(newgoal);
     document.getElementById('add-form').reset();
     document.getElementById('add-form').style.display = 'none';
 });
-function showEditForm(childKey,goalData) {
+function showEditForm(childKey,objData) {
     document.getElementById('edit-num').value = childKey;
-    document.getElementById('edit-name').value = goalData.name;
-    document.getElementById('edit-category').value = goalData.category;
-    document.getElementById('edit-progress').value = goalData.progress;
-    document.getElementById('edit-notes').value = goalData.notes;
+    document.getElementById('edit-name').value = objData.name;
+    document.getElementById('edit-progress').value = objData.progress;
+    document.getElementById('edit-notes').value = objData.notes;
     document.getElementById('edit-form').style.display = 'block';
 }
 
@@ -90,22 +85,20 @@ function cancelAdd() {
 document.getElementById('edit-form').addEventListener('submit', function(event) {
   event.preventDefault();
 
-  var goalsKey = document.getElementById('edit-num').value;
+  var objKey = document.getElementById('edit-num').value;
   var newName = document.getElementById('edit-name').value;
-  var newCategory = document.getElementById('edit-category').value;
   var newProgress = document.getElementById('edit-progress').value;
   var newNotes = document.getElementById('edit-notes').value;
 
-  database.ref('students/'+studentId+'/'+'goals/' + goalsKey).update({
+  database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+objKey).update({
     name: newName,
-    category: newCategory,
     progress: newProgress,
     notes: newNotes,
   }, function(error) {
     if (error) {
-      console.log('Error updating data:', error);
+      console.log('Error:', error);
     } else {
-      console.log('Data updated successfully');
+      console.log('Update successful');
       document.getElementById('edit-form').style.display = 'none';
     }
   });
