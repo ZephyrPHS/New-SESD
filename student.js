@@ -56,6 +56,10 @@ document.getElementById('add-student-button').addEventListener('click', function
     document.getElementById('add-form').style.display = 'block';
     
 });
+document.getElementById('export-csv').addEventListener('click', function() {
+  exportData();
+  
+});
 document.getElementById('add-form').addEventListener('submit', function(event) {
     event.preventDefault();
     var myname = document.getElementById('add-name').value;
@@ -121,3 +125,21 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
     }
   });
 });
+function exportData() {
+  dataRef.once('value', function(snapshot) {
+    var csvContent = "data:text/csv;charset=utf-8,";
+    var headerRow = "Name,Grade,ID,Disability,Manager,Date\r\n";
+    csvContent += headerRow;
+    snapshot.forEach(function(childSnapshot) {
+      var childData = childSnapshot.val();
+      var csvRow = childData.name + "," + childData.grade + "," + childData.id + "," + childData.disability + "," + childData.manager + "," + childData.date;
+      csvContent += csvRow + "\r\n";
+    });
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "data.csv");
+    document.body.appendChild(link);
+    link.click();
+  });
+}

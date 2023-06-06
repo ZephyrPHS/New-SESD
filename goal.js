@@ -118,3 +118,21 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
     }
   });
 });
+function exportData() {
+  goalsRef.once('value', function(snapshot) {
+    var csvContent = "data:text/csv;charset=utf-8,";
+    var headerRow = "ID,Name,Category,Progress,Notes\r\n";
+    csvContent += headerRow;
+    snapshot.forEach(function(childSnapshot) {
+      var childData = childSnapshot.val();
+      var csvRow = childSnapshot.num + "," + childData.name + "," + childData.category + "," + childData.progress + "," + childData.notes;
+      csvContent += csvRow + "\r\n";
+    });
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "data.csv");
+    document.body.appendChild(link);
+    link.click();
+  });
+}
