@@ -123,8 +123,28 @@ function searchStudent(){
         var managerCell = row.insertCell();
         managerCell.textContent = childData.manager;
         var dateCell = row.insertCell();
-        dateCell.textContent = childData.date;}
-      
+        dateCell.textContent = childData.date;
+        var actionsCell = row.insertCell();
+        var editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.addEventListener('click', function() {
+          showEditForm(childKey, childData);
+        });
+        actionsCell.appendChild(editButton);
+        var deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', function() {
+            database.ref('students/' + childKey).remove()
+        });
+        actionsCell.appendChild(deleteButton);
+        var viewButton = document.createElement('button');
+        viewButton.textContent = 'View';
+        
+        viewButton.addEventListener('click', function() {
+          window.location.href = 'goals_database.html?id=' + childKey;
+        });
+        actionsCell.appendChild(viewButton);
+      }
     });
   });  
 }
