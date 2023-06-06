@@ -52,6 +52,10 @@ document.getElementById('add-student-button').addEventListener('click', function
     document.getElementById('add-form').style.display = 'block';
     
 });
+document.getElementById('back-obj').addEventListener('click', function() {
+  window.location.href = 'goals_database.html?id=' + studentId;
+  
+});
 document.getElementById('add-form').addEventListener('submit', function(event) {
     event.preventDefault();
     var mynum = document.getElementById('add-num').value;
