@@ -16,52 +16,47 @@
   </style>
 </head>
 <body>
-  <h1>Special Education Student Database</h1>
+  <h1>Goals Page</h1>
   <button type = "submit">Export as CSV</button>
-  <button id="add-student-button">Add Student</button>
+  <button id="add-student-button">Add Goal</button>
   <form id="edit-form" style="display: none;">
     <input type="hidden" id="edit-id">
+    <label for="edit-num">ID:</label>
+    <input type="text" id="edit-num" required><br>
     <label for="edit-name">Name:</label>
     <input type="text" id="edit-name" required><br>
-    <label for="edit-grade">Grade:</label>
-    <input type="text" id="edit-grade" required><br>
-    <label for="edit-id">ID:</label>
-    <input type="text" id="edit-id" required><br>
-    <label for="edit-disability">Disability:</label>
-    <input type="text" id="edit-disability" required><br>
-    <label for="edit-manager">Manager:</label>
-    <input type="text" id="edit-manager" required><br>
-    <label for="edit-date">Date:</label>
-    <input type="date" id="edit-date" required><br>
+    <label for="edit-category">Category:</label>
+    <input type="text" id="edit-category" required><br>
+    <label for="edit-progress">Progress:</label>
+    <input type="text" id="edit-progress" required><br>
+    <label for="edit-notes">Notes:</label>
+    <input type="text" id="edit-notes" required><br>
     <button type="submit">Save</button>
     <button type="button" onclick="cancelEdit()">Cancel</button>
   </form>
   <form id="add-form" style="display: none;">
     <input type="hidden" id="add-id">
+    <label for="add-num">ID:</label>
+    <input type="text" id="add-num" required><br>
     <label for="add-name">Name:</label>
     <input type="text" id="add-name" required><br>
-    <label for="add-grade">Grade:</label>
-    <input type="text" id="add-grade" required><br>
-    <label for="add-identity">ID:</label>
-    <input type="text" id="add-identity" required><br>
-    <label for="add-disability">Disability:</label>
-    <input type="text" id="add-disability" required><br>
-    <label for="add-manager">Manager:</label>
-    <input type="text" id="add-manager" required><br>
-    <label for="add-date">Date:</label>
-    <input type="date" id="add-date" required><br>
+    <label for="add-category">Category:</label>
+    <input type="text" id="add-category" required><br>
+    <label for="add-progress">Progress:</label>
+    <input type="text" id="add-progress" required><br>
+    <label for="add-notes">Notes:</label>
+    <input type="text" id="add-notes" required><br>
     <button type="submit">Save</button>
     <button type="button" onclick="cancelAdd()">Cancel</button>
   </form>
   <table id="data-table">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>Grade</th>
         <th>ID</th>
-        <th>Disability</th>
-        <th>Manager</th>
-        <th>Date</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Objectives Complete</th>
+        <th>Notes</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -71,6 +66,6 @@
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
 
-  <script src = "student.js"></script>
+  <script src = "goal.js"> </script>
 </body>
 </html>
