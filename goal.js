@@ -1,4 +1,5 @@
-var studentId = 188513;
+var urlParams = new URLSearchParams(window.location.search);
+var studentId = urlParams.get('id');
 var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
@@ -44,9 +45,12 @@ goalsRef.on('value', function(snapshot) {
         database.ref('students/'+studentId+'/'+'goals/' + childKey).remove()
     });
     actionsCell.appendChild(deleteButton);
-    var goalsButton = document.createElement('button');
-    goalsButton.textContent = 'View';
-    actionsCell.appendChild(goalsButton);
+    var viewButton = document.createElement('button');
+    viewButton.textContent = 'View';
+    viewButton.addEventListener('click', function() {
+      window.location.href = 'obj_database.html?id=' + studentId+'&goal='+childKey;
+    });
+    actionsCell.appendChild(viewButton);
   });
 });
 document.getElementById('add-student-button').addEventListener('click', function() {

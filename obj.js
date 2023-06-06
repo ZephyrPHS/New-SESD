@@ -1,5 +1,6 @@
-var studentId = 188513;
-var goalNo = 1;
+var urlParams = new URLSearchParams(window.location.search);
+var studentId = urlParams.get('id');
+var goalNo = urlParams.get('goal');
 var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
@@ -42,7 +43,7 @@ objRef.on('value', function(snapshot) {
     var deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', function() {
-        database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives'+childKey).remove()
+        database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+childKey).remove()
     });
     actionsCell.appendChild(deleteButton);
   });
