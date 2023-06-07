@@ -44,7 +44,6 @@ goalsRef.on('value', function(snapshot) {
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', function() {
         database.ref('students/'+studentId+'/'+'goals/' + childKey).remove()
-        goalNo--;
     });
     actionsCell.appendChild(deleteButton);
     var viewButton = document.createElement('button');
