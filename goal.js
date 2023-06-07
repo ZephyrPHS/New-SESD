@@ -137,4 +137,4 @@ function exportData() {
   });
 }
 var details = document.getElementById("details");
-details.innerHTML = "ID Number: "+ studentId;
+details.innerHTML = "ID #: "+ studentId;
