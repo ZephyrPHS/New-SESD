@@ -197,3 +197,28 @@ function exportData() {
     link.click();
   });
 }
+/*
+function exportStudent(idNum){
+  var csvContent = "data:text/csv;charset=utf-8,";
+  var studentRef = database.ref('students/' + idNum);
+  studentRef.once('value', function(snapshot) {
+    var student = snapshot.val();
+    var csvRow = student.name + "," + student.grade + "," + student.id + "," + student.disability + "," + student.manager + "," + student.date;
+    csvContent += csvRow + "\r\n";
+  });
+  var goalList = database.ref('students/' + idNum + '/goals');
+  goalList.once('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      var childData = childSnapshot.val();
+      var csvRow = childData.name + "," + childData.category + "," + childData.progress + "," + childData.notes;
+      csvContent += csvRow + "\r\n";
+    });
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", student.name + ".csv");
+    document.body.appendChild(link);
+    link.click();
+  });
+}
+*/
