@@ -126,3 +126,5 @@ function exportData() {
     link.click();
   });
 }
+var details = document.getElementById("details");
+details.innerHTML = "ID Number: "+ studentId+ " "+ "Goal Number: "+ goalNo;
