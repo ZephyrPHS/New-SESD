@@ -138,7 +138,7 @@ function searchStudent(){
         });
         actionsCell.appendChild(deleteButton);
         var viewButton = document.createElement('button');
-        viewButton.textContent = 'View';
+        viewButton.textContent = 'View Goals';
         
         viewButton.addEventListener('click', function() {
           window.location.href = 'goals_database.html?id=' + childKey;
