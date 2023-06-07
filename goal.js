@@ -1,7 +1,6 @@
 var urlParams = new URLSearchParams(window.location.search);
 var studentId = urlParams.get('id');
 var goalsKey;
-var goalNo = 0;
 var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
@@ -24,6 +23,8 @@ goalsRef.on('value', function(snapshot) {
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();
     var row = tableRef.insertRow();
+    var numCell = row.insertCell();
+    numCell.textContent = childKey;
     var nameCell = row.insertCell();
     nameCell.textContent = childData.name;
     var categoryCell = row.insertCell();
@@ -64,7 +65,7 @@ document.getElementById('back-goal').addEventListener('click', function() {
 });
 document.getElementById('add-form').addEventListener('submit', function(event) {
     event.preventDefault();
-    var mynum = goalNo++;
+    var mynum = document.getElementById('add-num').value;
     var myname = document.getElementById('add-name').value;
     var mycategory = document.getElementById('add-category').value;
     var myprogress = document.getElementById('add-progress').value;

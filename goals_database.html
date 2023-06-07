@@ -34,6 +34,9 @@
     <button type="button" onclick="cancelEdit()">Cancel</button>
   </form>
   <form id="add-form" style="display: none;">
+    <input type="hidden" id="add-id">
+    <label for="add-num">ID:</label>
+    <input type="number" id="add-num" required><br>
     <label for="add-name">Name:</label>
     <input type="text" id="add-name" required><br>
     <label for="add-category">Category:</label>
@@ -48,6 +51,7 @@
   <table id="data-table">
     <thead>
       <tr>
+        <th>ID</th>
         <th>Name</th>
         <th>Category</th>
         <th>Progress</th>

@@ -1,8 +1,7 @@
 var urlParams = new URLSearchParams(window.location.search);
 var studentId = urlParams.get('id');
 var goalNo = urlParams.get('goal');
-studentId = 100000;
-goalNo = 1;
+var objKey;
 var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
@@ -44,6 +43,7 @@ objRef.on('value', function(snapshot) {
     editButton.textContent = 'Edit';
     editButton.addEventListener('click', function() {
       showEditForm(childKey,childData);
+      objKey = childKey;
     });
     actionsCell.appendChild(editButton);
     var deleteButton = document.createElement('button');
@@ -92,7 +92,6 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
     document.getElementById('add-form').style.display = 'none';
 });
 function showEditForm(childKey,objData) {
-    document.getElementById('edit-num').value = childKey;
     document.getElementById('edit-name').value = objData.name;
     document.getElementById('edit-current').value = objData.currentNum;
     document.getElementById('edit-target').value = objData.target;
@@ -109,8 +108,6 @@ function cancelAdd() {
 
 document.getElementById('edit-form').addEventListener('submit', function(event) {
   event.preventDefault();
-
-  var objKey = document.getElementById('edit-num').value;
   var newName = document.getElementById('edit-name').value;
   var newCurrent = document.getElementById('edit-current').value;
   var newTarget = document.getElementById('edit-target').value;
