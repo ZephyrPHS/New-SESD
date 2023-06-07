@@ -1,6 +1,8 @@
 var urlParams = new URLSearchParams(window.location.search);
 var studentId = urlParams.get('id');
 var goalNo = urlParams.get('goal');
+studentId = 100000;
+goalNo = 1;
 var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
@@ -76,7 +78,6 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
         progress:"Not Started"
     };
     database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/').child(mynum).set(newgoal);
-    /*
     if (mycurrent == mytarget){
       database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+mynum).update({
         progress: "Completed"
@@ -86,7 +87,7 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
       database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+mynum).update({
         progress: "In Progress"
       });
-    }*/
+    }
     document.getElementById('add-form').reset();
     document.getElementById('add-form').style.display = 'none';
 });
