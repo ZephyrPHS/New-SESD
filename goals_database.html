@@ -14,15 +14,14 @@
     <div class="title">IEP NAVIGATOR</div>
     <a href="#" class="sign-out">Sign Out</a>
   </nav>
-  <div class = "box"></div>
-  <h2 id="details">Student Info</h2>
+  <div class = "box" id = "vertical"></div>
+  <h1>Student Goals</h1>
+  <h2 id="details">Student Info</h2><br>
   <button type = "submit" id = "back-goal">Back to Students</button>
   <button type = "submit" onclick = "exportData()">Export as CSV</button>
   <button id="add-student-button">Add Goal</button>
   <form id="edit-form" style="display: none;">
     <input type="hidden" id="edit-id">
-    <label for="edit-num">ID:</label>
-    <input type="text" id="edit-num" required><br>
     <label for="edit-name">Name:</label>
     <input type="text" id="edit-name" required><br>
     <label for="edit-category">Category:</label>
@@ -35,9 +34,6 @@
     <button type="button" onclick="cancelEdit()">Cancel</button>
   </form>
   <form id="add-form" style="display: none;">
-    <input type="hidden" id="add-id">
-    <label for="add-num">ID:</label>
-    <input type="text" id="add-num" required><br>
     <label for="add-name">Name:</label>
     <input type="text" id="add-name" required><br>
     <label for="add-category">Category:</label>
@@ -52,7 +48,6 @@
   <table id="data-table">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Name</th>
         <th>Category</th>
         <th>Progress</th>

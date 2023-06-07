@@ -1,5 +1,7 @@
 var urlParams = new URLSearchParams(window.location.search);
 var studentId = urlParams.get('id');
+var goalsKey;
+var goalNo = 0;
 var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
@@ -22,8 +24,6 @@ goalsRef.on('value', function(snapshot) {
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();
     var row = tableRef.insertRow();
-    var numCell = row.insertCell();
-    numCell.textContent = childKey;
     var nameCell = row.insertCell();
     nameCell.textContent = childData.name;
     var categoryCell = row.insertCell();
@@ -37,12 +37,14 @@ goalsRef.on('value', function(snapshot) {
     editButton.textContent = 'Edit';
     editButton.addEventListener('click', function() {
       showEditForm(childKey,childData);
+      goalsKey = childKey;
     });
     actionsCell.appendChild(editButton);
     var deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', function() {
         database.ref('students/'+studentId+'/'+'goals/' + childKey).remove()
+        goalNo--;
     });
     actionsCell.appendChild(deleteButton);
     var viewButton = document.createElement('button');
@@ -63,7 +65,7 @@ document.getElementById('back-goal').addEventListener('click', function() {
 });
 document.getElementById('add-form').addEventListener('submit', function(event) {
     event.preventDefault();
-    var mynum = document.getElementById('add-num').value;
+    var mynum = goalNo++;
     var myname = document.getElementById('add-name').value;
     var mycategory = document.getElementById('add-category').value;
     var myprogress = document.getElementById('add-progress').value;
@@ -80,7 +82,6 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
     document.getElementById('add-form').style.display = 'none';
 });
 function showEditForm(childKey,goalData) {
-    document.getElementById('edit-num').value = childKey;
     document.getElementById('edit-name').value = goalData.name;
     document.getElementById('edit-category').value = goalData.category;
     document.getElementById('edit-progress').value = goalData.progress;
@@ -97,8 +98,6 @@ function cancelAdd() {
 
 document.getElementById('edit-form').addEventListener('submit', function(event) {
   event.preventDefault();
-
-  var goalsKey = document.getElementById('edit-num').value;
   var newName = document.getElementById('edit-name').value;
   var newCategory = document.getElementById('edit-category').value;
   var newProgress = document.getElementById('edit-progress').value;
@@ -115,11 +114,11 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
 function exportData() {
   goalsRef.once('value', function(snapshot) {
     var csvContent = "data:text/csv;charset=utf-8,";
-    var headerRow = "ID,Name,Category,Progress,Notes\r\n";
+    var headerRow = "Name,Category,Progress,Notes\r\n";
     csvContent += headerRow;
     snapshot.forEach(function(childSnapshot) {
       var childData = childSnapshot.val();
-      var csvRow = childSnapshot.num + "," + childData.name + "," + childData.category + "," + childData.progress + "," + childData.notes;
+      var csvRow = childData.name + "," + childData.category + "," + childData.progress + "," + childData.notes;
       csvContent += csvRow + "\r\n";
     });
     var encodedUri = encodeURI(csvContent);

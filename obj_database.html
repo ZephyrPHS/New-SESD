@@ -15,6 +15,7 @@
     <a href="#" class="sign-out">Sign Out</a>
   </nav>
   <div class = "box"></div>
+  <h1>Goal Objectives</h1>
   <h2 id = "details">Goal Info</h2>
   <button type = "submit" id = "back-obj">Back to Goals</button>
   <button type = "submit" onclick = "exportData()">Export as CSV</button>
@@ -22,7 +23,7 @@
   <form id="edit-form" style="display: none;">
     <input type="hidden" id="edit-id">
     <label for="edit-num">ID:</label>
-    <input type="text" id="edit-num" required><br>
+    <input type="number" id="edit-num" required><br>
     <label for="edit-name">Name:</label>
     <input type="text" id="edit-name" required><br>
     <label for="edit-current">Current:</label>
@@ -37,7 +38,7 @@
   <form id="add-form" style="display: none;">
     <input type="hidden" id="add-id">
     <label for="add-num">ID:</label>
-    <input type="text" id="add-num" required><br>
+    <input type="number" id="add-num" required><br>
     <label for="add-name">Name:</label>
     <input type="text" id="add-name" required><br>
     <label for="add-current">Current:</label>
