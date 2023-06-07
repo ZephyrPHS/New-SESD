@@ -80,7 +80,7 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
     database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/').child(mynum).set(newgoal);
     if (mycurrent >= mytarget){
       database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+mynum).update({
-        progress: "Completed"
+        progress: "Complete"
       });
     }
     else if(mycurrent>0){
@@ -124,7 +124,7 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   });
   if (newCurrent >= newTarget){
     database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+objKey).update({
-      progress: "Completed"
+      progress: "Complete"
     });
   }
   else if(newCurrent>0){
