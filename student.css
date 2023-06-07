@@ -1,12 +1,46 @@
-li[id = "data-title"]{
-  text-align: center;
-  font-size: 25px;
-  font-weight: bold;
-  color: #090114;
+nav {
+  background-color: #B9CDDA;
+  padding: 10px 20px;
 }
-li[id = "sign-out"]{
-  /*idk help*/
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  
+}
+
+nav ul li {
+  margin-right: 10px;
+  justify-content: flex-start;
+}
+
+nav ul li:last-child {
+  margin-right: 0;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  padding: 5px 10px;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 30px;
   text-align: center;
+  margin: 0;
+}
+
+.sign-out {
+  background-color: #ccc;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #333;
+  text-decoration: none;
+  margin-right: 10px;
 }
 body {
   font-family: Tahoma, sans-serif;
