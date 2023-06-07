@@ -78,7 +78,7 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
         progress:"Not Started"
     };
     database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/').child(mynum).set(newgoal);
-    if (mycurrent == mytarget){
+    if (mycurrent >= mytarget){
       database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+mynum).update({
         progress: "Completed"
       });
