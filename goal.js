@@ -58,7 +58,7 @@ document.getElementById('add-student-button').addEventListener('click', function
     
 });
 document.getElementById('back-goal').addEventListener('click', function() {
-  window.location.href = 'student_database.html';
+  window.location.href = 'https://zephyrphs.github.io/New-SESD/student_database';
   
 });
 document.getElementById('add-form').addEventListener('submit', function(event) {

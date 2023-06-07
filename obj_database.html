@@ -3,53 +3,18 @@
 <head>
   <title>Special Education Student Database</title>
   <link rel="stylesheet" type="text/css" href="student.css">
-  <style>
-    body {margin:0;}
-    
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #b9a8ce;
-      position: fixed;
-      top: 0;
-      width: 100%;
-    }
-    
-    li {
-      float: left;
-      display: block;
-      color: white;
-      text-align: center;
-      text-decoration: none;
-    }
-    
-    li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-    }
-    
-    li a:hover:not(.active) {
-      background-color: #ae96cb;
-    }
-    
-    .active {
-      background-color: #B9CDDA;
-    }
-  </style>
 </head>
 <body>
-  <ul>
-    <li><a href="https://zephyrphs.github.io/New-SESD/student_database">Student Database</a></li>
-    <li><a href="https://zephyrphs.github.io/New-SESD/help">Help</a></li>
-    <li><a href="https://zephyrphs.github.io/New-SESD/contact">Contact Us</a></li>
-    <li>Objectives</li>
-    <li style="float:right"><a class="active" href="#login page">Sign Out</a></li>
-  </ul>
+  <nav>
+    <ul>
+      <li><a href="https://zephyrphs.github.io/New-SESD/student_database">Database</a></li>
+      <li><a href="https://zephyrphs.github.io/New-SESD/help">Help</a></li>
+      <li><a href="https://zephyrphs.github.io/New-SESD/contact">Contact</a></li>
+    </ul>
+    <div class="title">TITLE NAME</div>
+    <a href="#" class="sign-out">Sign Out</a>
+  </nav>
+  <div class = "box"></div>
   <button type = "submit" id = "back-obj">Back to Goals</button>
   <button type = "submit" onclick = "exportData()">Export as CSV</button>
   <button id="add-student-button">Add Objective</button>
