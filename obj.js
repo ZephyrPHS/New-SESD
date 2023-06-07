@@ -122,7 +122,7 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
     target:newTarget,
     notes: newNotes
   });
-  if (newCurrent == newTarget){
+  if (newCurrent >= newTarget){
     database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+objKey).update({
       progress: "Completed"
     });
