@@ -3,55 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Website Help</title>
-  <link rel="stylesheet" type="text/css" href="help.css">
-  <style>
-    body {margin:0;}
-    
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #b9a8ce;
-      position: fixed;
-      top: 0;
-      width: 100%;
-    }
-    
-    li {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-    }
-    
-    li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-    }
-    
-    li a:hover:not(.active) {
-      background-color: #ae96cb;
-    }
-    
-    .active {
-      background-color: #B9CDDA;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="student.css">
 </head>
 <body>
-	<ul>
-		<li><a href="https://zephyrphs.github.io/New-SESD/student_database">Student Database</a></li>
-		<li><a href="https://zephyrphs.github.io/New-SESD/help">Help</a></li>
-		<li><a href="https://zephyrphs.github.io/New-SESD/contact">Contact Us</a></li>
-    <li>Help</li>
-		<li style="float:right"><a class="active" href="#login page">Sign Out</a></li>
-	  </ul>
-
+	<nav>
+    <ul>
+      <li><a href="https://zephyrphs.github.io/New-SESD/student_database">Database</a></li>
+      <li><a href="https://zephyrphs.github.io/New-SESD/help">Help</a></li>
+      <li><a href="https://zephyrphs.github.io/New-SESD/contact">Contact</a></li>
+    </ul>
+    <div class="title">IEP NAVIGATOR</div>
+    <a href="#" class="sign-out">Sign Out</a>
+  </nav>
+  <div class = "box"></div>
   <h2>Student Database</h2>
   	<h3>Creating/Editing/Deleting a Student</h3>
   		<p>To create a new student, click "Add Student" and then fill out the name, grade, ID, disability, case manager, and annual review date fields. Then click "Save" to create that student. To edit an existing student, click "edit" next to the desired student in the actions section and edit the fields that appear in the top left of the screen. Once again, click "Save" to save your changes. You may also click "Cancel" next to the save button at any time to abort the creation/editing process. Finally, click the "Delete" button in the actions section to delete a student from the database (NOTE: this action is irreversible).</p>
