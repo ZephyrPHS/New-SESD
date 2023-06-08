@@ -97,7 +97,8 @@ table th:last-child{
   border-radius:0 10px 10px 0;
 }
 td {
-  
+  text-align: left;
+  white-space: pre;
   padding: 10px;
 }
 td:first-child {

@@ -44,12 +44,19 @@ dataRef.on('value', function(snapshot) {
     });
     actionsCell.appendChild(deleteButton);
     var viewButton = document.createElement('button');
-    viewButton.textContent = 'View Goals';
+    viewButton.textContent = 'Goals';
     
     viewButton.addEventListener('click', function() {
       window.location.href = 'goals_database.html?id=' + childKey;
     });
     actionsCell.appendChild(viewButton);
+    var exportButton = document.createElement('button');
+    exportButton.textContent = 'Export Student';
+    exportButton.addEventListener('click', function() {
+      exportStudent(childData);
+    });
+    actionsCell.appendChild(exportButton);
+    
   });
 });
 document.getElementById('add-student-button').addEventListener('click', function() {
@@ -197,28 +204,31 @@ function exportData() {
     link.click();
   });
 }
-/*
-function exportStudent(idNum){
+
+function exportStudent(childData){
   var csvContent = "data:text/csv;charset=utf-8,";
-  var studentRef = database.ref('students/' + idNum);
-  studentRef.once('value', function(snapshot) {
-    var student = snapshot.val();
-    var csvRow = student.name + "," + student.grade + "," + student.id + "," + student.disability + "," + student.manager + "," + student.date;
-    csvContent += csvRow + "\r\n";
-  });
-  var goalList = database.ref('students/' + idNum + '/goals');
-  goalList.once('value', function(snapshot) {
+  var csvRow = childData.name + "," + childData.grade + "," + childData.id + "," + childData.disability + "," + childData.manager + "," + childData.date;
+  csvContent += csvRow + "\r\n";
+  goalsRef = database.ref('students/' + childData.id + '/goals');
+  goalsRef.once('value', function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
-      var childData = childSnapshot.val();
-      var csvRow = childData.name + "," + childData.category + "," + childData.progress + "," + childData.notes;
+      var childGoal = childSnapshot.val();
+      var csvRow = "Goal: " + "," + childGoal.name + "," + childGoal.category + "," + childGoal.progress + "," + childGoal.notes;  
       csvContent += csvRow + "\r\n";
+      specificObjRef = database.ref('students/' + childData.id + '/goals/' + childGoal.num + '/objectives');
+      specificObjRef.once('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var childObj = childSnapshot.val();
+          var csvRow = "" + "," + "Objective: " + "," + childObj.name + "," + childObj.progress + "," + childObj.notes;  
+          csvContent += csvRow + "\r\n";
+        });
+      });
     });
-    var encodedUri = encodeURI(csvContent);
-    var link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", student.name + ".csv");
-    document.body.appendChild(link);
-    link.click();
   });
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", childData.name + ".csv");
+  document.body.appendChild(link);
+  link.click();
 }
-*/

@@ -2,6 +2,8 @@ var urlParams = new URLSearchParams(window.location.search);
 var studentId = urlParams.get('id');
 var goalNo = urlParams.get('goal');
 var objKey;
+var objData;
+const d = new Date();
 var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
@@ -44,6 +46,7 @@ objRef.on('value', function(snapshot) {
     editButton.addEventListener('click', function() {
       showEditForm(childKey,childData);
       objKey = childKey;
+      objData = childData;
     });
     actionsCell.appendChild(editButton);
     var deleteButton = document.createElement('button');
@@ -107,12 +110,17 @@ function cancelAdd() {
 }
 
 document.getElementById('edit-form').addEventListener('submit', function(event) {
-  event.preventDefault();
+  event.preventDefault()
   var newName = document.getElementById('edit-name').value;
   var newCurrent = document.getElementById('edit-current').value;
   var newTarget = document.getElementById('edit-target').value;
   var newNotes = document.getElementById('edit-notes').value;
-
+  if(newCurrent != objData.currentNum){
+    newNotes += "\n" + (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+" Updated current from " + objData.currentNum + " to " + newCurrent;
+  }
+  if(newTarget != objData.target){
+    newNotes += "\n" + (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+" Updated target from " + objData.target + " to " + newTarget;
+  }
   database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+objKey).update({
     name: newName,
     currentNum:newCurrent,
@@ -127,6 +135,11 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   else if(newCurrent>0){
     database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+objKey).update({
       progress: "In Progress"
+    });
+  }
+  if(newCurrent==0){
+    database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+objKey).update({
+      progress: "Not Started"
     });
   }
     document.getElementById('edit-form').style.display = 'none';

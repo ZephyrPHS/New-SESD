@@ -130,7 +130,7 @@ function exportData() {
   });
 }
 var details = document.getElementById("details");
-details.innerHTML = "ID #: "+ studentId;
+details.innerHTML = "ID: "+ studentId;
 /*
 function checkProgress(goalKey){
   var countComplete = 0;
