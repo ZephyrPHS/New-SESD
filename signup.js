@@ -1,19 +1,10 @@
-// CHECK TO SEE IF USERNAME AND PASSWORD ALREADY EXISTS
-// IF NOT, REGISTER ACCOUNT
 var firebaseConfig = {
-  apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
-  authDomain: "zephyr-studata.firebaseapp.com",
-  databaseURL: "https://zephyr-studata-default-rtdb.firebaseio.com",
-  projectId: "zephyr-studata",
-  storageBucket: "zephyr-studata.appspot.com",
-  messagingSenderId: "236682966409",
-  appId: "1:236682966409:web:96428f11dff8fa4f751d58",
-  measurementId: "G-NEPJNZ2VC2"
+  // Your Firebase configuration
 };
+
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
-  
 // Function to check if a user already exists with the same email or username
 function isDuplicateUser(users, email, username) {
   return users.some((user) => user.email === email || user.username === username);
@@ -42,62 +33,40 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    // Retrieve existing users from local storage
-    let existingUsersCSV = "";
+    // Retrieve existing users from the database
     var dataRef = database.ref('users');
-    dataRef.on('value', function(snapshot) {
-      existingUsersCSV = ""; // Clear existing student data
-      snapshot.forEach(function(childSnapshot) {
-        existingUsersCSV = childSnapshot.val();
-        if (existingUsersCSV == null || existingUsersCSV == "") {
-            existingUsersCSV = "crossen,email,password,1";
-        }
-        const existingUsers2D = Papa.parse(existingUsersCSV).data;
-        const existingUsers = [];
 
-        // Convert existingUsers2D to an array of user objects
-        for (let i = 0; i < existingUsers2D.length; i++) {
-          const user = {
-            username: existingUsers2D[i][0],
-            email: existingUsers2D[i][1],
-            password: existingUsers2D[i][2],
-            confirm: existingUsers2D[i][3]
-          };
-          existingUsers.push(user);
-        }
+    dataRef.once('value', function(snapshot) {
+      const existingUsers = snapshot.val() || {};
 
-        // Check for duplicate email or username
-        if (isDuplicateUser(existingUsers, email, username)) {
-          alert("A user with the same email or username already exists.");
-          return;
-        }
+      // Check for duplicate email or username
+      if (isDuplicateUser(Object.values(existingUsers), email, username)) {
+        alert("A user with the same email or username already exists.");
+        return;
+      }
 
-        // Create a new user object
-        const newUser = {
-          username: username,
-          email: email,
-          password: password,
-          confirm: 0
-        };
+      // Create a new user object
+      const newUser = {
+        username: username,
+        email: email,
+        password: password,
+        confirm: 0
+      };
 
-        // Add the new user to the existing users array
-        existingUsers.push(newUser);
+      // Generate a unique key for the new user
+      const userKey = dataRef.push().key;
 
-        // Convert the updated users array back to CSV format
-        const updatedUsersCSV = Papa.unparse(existingUsers);
+      // Add the new user to the existing users in the database
+      dataRef.child(userKey).set(newUser);
 
-        // Update the users in local storage
-        database.ref("users").child("data").set(updatedUsersCSV);
+      // Clear the form inputs
+      usernameInput.value = "";
+      emailInput.value = "";
+      passwordInput.value = "";
 
-        // Clear the form inputs
-        usernameInput.value = "";
-        emailInput.value = "";
-        passwordInput.value = "";
-
-        alert(
-          "Account creation request has been sent to the RTSE and is waiting approval. You may close this page."
-        ); // send request to RTSE
-      });
+      alert(
+        "Account creation request has been sent to the RTSE and is waiting approval. You may close this page."
+      ); // send request to RTSE
     });
   });
 });
