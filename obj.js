@@ -34,10 +34,8 @@ objRef.on('value', function(snapshot) {
     nameCell.textContent = childData.name;
     var progressCell = row.insertCell();
     progressCell.textContent = childData.progress;
-    var targetCell = row.insertCell();
-    targetCell.textContent = childData.target;
-    var currentCell = row.insertCell();
-    currentCell.textContent = childData.currentNum;
+    var changeCell = row.insertCell();
+    changeCell.textContent = childData.currentNum+" / "+childData.target +" Complete";
     var notesCell = row.insertCell();
     notesCell.textContent = childData.notes;
     var actionsCell = row.insertCell();
