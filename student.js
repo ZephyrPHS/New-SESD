@@ -55,6 +55,7 @@ dataRef.on('value', function(snapshot) {
     exportButton.addEventListener('click', function() {
       exportStudent(childData);
     });
+    actionsCell.append("\n");
     actionsCell.appendChild(exportButton);
     
   });
