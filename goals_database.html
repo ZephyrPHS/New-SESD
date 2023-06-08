@@ -27,8 +27,12 @@
     <label for="edit-category">Category:</label>
     <input type="text" id="edit-category" required><br>
     <label for="edit-progress">Progress:</label>
-    <input type="text" id="edit-progress" required><br>
-    <label for="edit-notes">Notes:</label>
+    <select name="Progress" id="edit-progress" required><br>
+      <option value="Achieved">Achieved</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Introduced">Introduced</option>
+      <option value="Not Introduced">Not Introduced</option>
+    </select><br>
     <input type="text" id="edit-notes" required><br>
     <button type="submit">Save</button>
     <button type="button" onclick="cancelEdit()">Cancel</button>
@@ -42,7 +46,12 @@
     <label for="add-category">Category:</label>
     <input type="text" id="add-category" required><br>
     <label for="add-progress">Progress:</label>
-    <input type="text" id="add-progress" required><br>
+    <select name="Progress" id="add-progress" required><br>
+      <option value="Achieved">Achieved</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Introduced">Introduced</option>
+      <option value="Not Introduced">Not Introduced</option>
+    </select><br>
     <label for="add-notes">Notes:</label>
     <input type="text" id="add-notes" required><br>
     <button type="submit">Save</button>
