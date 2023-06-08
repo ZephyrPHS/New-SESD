@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Perform login logic (work in progress)
       if (username === 'admin' && password === 'password') {
         sessionStorage.setItem("token", username+password);
-        window.location.href = '/Studata/database';
+        window.location.href = 'https://zephyrphs.github.io/New-SESD/student_database';
       } else {
         alert('Invalid username or password. Please try again.');
       }
