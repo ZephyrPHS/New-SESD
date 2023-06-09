@@ -41,35 +41,43 @@ if (sessionStorage.getItem("token") === "adminpassword") {
 
   // Function to render the user list
   function renderUsers() {
-    const userList = document.getElementById("incoming-user-list");
-    userList.innerHTML = "";
-    let id = 0;
-    let users2D = [];
-    users.forEach((user) => {
-      users2D.push([
-        user.username,
-        user.email,
-        user.password,
-        user.confirm
-      ]);
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>
-          <form id="confirm">
-            <button onclick="confirmUser(${id})">Confirm</button>
-          </form>
-          <form id="deny">
-            <button onclick="denyUser(${id})">Deny</button>
-          </form>
-        </td>
-        <td>${user.username}</td>
-        <td>${user.email}</td>
-      `;
-      userList.appendChild(row);
-      id++;
-    });
-    exportToCsv(users2D);
-  }
+  const userList = document.getElementById("incoming-user-list");
+  userList.innerHTML = "";
+  let id = 0;
+  let updatedUsers = {};
+
+  users.forEach((user) => {
+    const userKey = `user${id}`; // Generate a unique user key
+    const userData = {
+      confirm: user.confirm,
+      email: user.email,
+      displayname: user.displayname,
+      password: user.password,
+      username: user.username
+    };
+
+    updatedUsers[userKey] = userData;
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>
+        <form id="confirm">
+          <button onclick="confirmUser('${userKey}')">Confirm</button>
+        </form>
+        <form id="deny">
+          <button onclick="denyUser('${userKey}')">Deny</button>
+        </form>
+      </td>
+      <td>${user.username}</td>
+      <td>${user.displayname}</td>
+      <td>${user.email}</td>
+    `;
+    userList.appendChild(row);
+    id++;
+  });
+
+  database.ref("users").set(updatedUsers);
+}
 
   // Function to confirm a user
   function confirmUser(id) {
@@ -88,30 +96,7 @@ if (sessionStorage.getItem("token") === "adminpassword") {
       renderUsers();
     }
   }
-
-  // Function to export data to CSV format and save it to Firebase
-  function exportToCsv(rows) {
-    var processRow = function (row) {
-      var finalVal = "";
-      for (var j = 0; j < row.length; j++) {
-        var innerValue = row[j] === null ? "" : row[j].toString();
-        if (row[j] instanceof Date) {
-          innerValue = row[j].toLocaleString();
-        }
-        var result = innerValue.replace(/"/g, '""');
-        if (result.search(/("|,|\n)/g) >= 0) result = '"' + result + '"';
-        if (j > 0) finalVal += ",";
-        finalVal += result;
-      }
-      return finalVal + "\n";
-    };
-
-    var csvFile = "";
-    for (var i = 0; i < rows.length; i++) {
-      csvFile += processRow(rows[i]);
-    }
-    database.ref("users").set(csvFile);
-  }
+  
 } else {
   alert("Your session has expired. Please log in again.");
 }
