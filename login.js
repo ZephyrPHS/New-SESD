@@ -11,7 +11,7 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
-
+//reset token
 sessionStorage.setItem("token", "");
 
 document.addEventListener('DOMContentLoaded', function() {
