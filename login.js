@@ -11,7 +11,7 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
-
+//reset token
 sessionStorage.setItem("token", "");
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to generate a JWT token
 function generateToken(displayname, email) {
-  // Add your JWT token generation logic here
-  // This is just a placeholder example
-  const token = displayname + ',' + email;
+  // Add the JWT token generation logic here
+  // This is just a placeholder
+  const token = displayname;
   return token;
 }
