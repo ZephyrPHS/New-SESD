@@ -53,6 +53,12 @@ goalsRef.on('value', function(snapshot) {
       window.location.href = 'obj_database.html?id=' + studentId+'&goal='+childKey;
     });
     actionsCell.appendChild(viewButton);
+    var addNoteButton = document.createElement('button');
+    addNoteButton.textContent = 'Add Note';
+    addNoteButton.addEventListener('click', function() {
+      addNote();
+    });
+    actionsCell.appendChild(addNoteButton);
   });
 });
 document.getElementById('add-student-button').addEventListener('click', function() {
@@ -131,6 +137,12 @@ function exportData() {
 }
 var details = document.getElementById("details");
 details.innerHTML = "ID: "+ studentId;
+function addNote(){
+  document.getElementById('add-note-form').style.display = 'block';
+  var newNote = document.getElementById('add-note').value;
+  database.ref('students/'+studentId+'/'+'notes/').push(newNote);
+  document.getElementById('add-note').value = "";
+}
 /*
 function checkProgress(goalKey){
   var countComplete = 0;
