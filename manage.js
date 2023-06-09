@@ -1,4 +1,4 @@
-if (sessionStorage.getItem("token") === "admin" || 1 == 1) {
+if (sessionStorage.getItem("token") === "admin") {
   var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
