@@ -13,17 +13,15 @@ var database = firebase.database();
 var dataRef = database.ref('users');
 var userDisplayName = "";
 var login = false;
+// check if user exists in database
 dataRef.once('value', function(snapshot) {
   let authenticatedUser = null;
-
   snapshot.forEach(function(childSnapshot) {
     var childData = childSnapshot.val();
-
     if (childData.displayname === sessionStorage.getItem("token") && childData.confirm == 1) {
       authenticatedUser = childData;
       return true; // Stop iterating through users
     }
-    
   });
   if (authenticatedUser) {
     userDisplayName = authenticatedUser.displayname;
@@ -32,6 +30,7 @@ dataRef.once('value', function(snapshot) {
     alert('Invalid username or password. Please try again.');
   }
 });
+// make sure user is logged in
 if(login) {
   var tableRef = document.getElementById('data-table').getElementsByTagName('tbody')[0];
   var dataRef = database.ref('students');
