@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         snapshot.forEach(function(childSnapshot) {
           var childData = childSnapshot.val();
 
-          if (childData.username === username && childData.password === password) {
+          if (childData.username === username && childData.password === password  && childData.confirm == 1) {
             authenticatedUser = childData;
             return true; // Stop iterating through users
           }
