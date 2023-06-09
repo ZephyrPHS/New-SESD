@@ -21,69 +21,55 @@ if (sessionStorage.getItem("token") === "adminpassword") {
     snapshot.forEach(function(childSnapshot) {
       var childData = childSnapshot.val();
 
-      // Check if data exists in Firebase
-      // If data exists, retrieve and parse it
-      let data = childData;
-      let userObj = {};
-      Object.keys(data).forEach(key => {
-        let userData = data[key];
-        userObj = {
-          confirm: userData.confirm,
-          email: userData.email,
-          password: userData.password,
-          username: userData.username
-        };
-        users.push(userObj);
-      });
+      let userObj = {
+        confirm: childData.confirm,
+        email: childData.email,
+        password: childData.password,
+        username: childData.username
+      };
+
+      users.push(userObj);
     });
     renderUsers();
   });
 
   // Function to render the user list
   function renderUsers() {
-  const userList = document.getElementById("incoming-user-list");
-  userList.innerHTML = "";
-  let id = 0;
-  let updatedUsers = {};
+    const incomingUserTable = document.getElementById("incoming-user-table");
+    incomingUserTable.innerHTML = "";
 
-  users.forEach((user) => {
-    const userKey = `user${id}`; // Generate a unique user key
-    const userData = {
-      confirm: user.confirm,
-      email: user.email,
-      displayname: user.displayname,
-      password: user.password,
-      username: user.username
-    };
+    const currentUserTable = document.getElementById("current-user-table");
+    currentUserTable.innerHTML = "";
 
-    updatedUsers[userKey] = userData;
+    users.forEach((user, userKey) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>
+          <form id="confirm">
+            <button onclick="confirmUser('${userKey}')">Confirm</button>
+          </form>
+          <form id="deny">
+            <button onclick="denyUser('${userKey}')">Deny</button>
+          </form>
+        </td>
+        <td>${user.username}</td>
+        <td>${user.email}</td>
+      `;
 
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>
-        <form id="confirm">
-          <button onclick="confirmUser('${userKey}')">Confirm</button>
-        </form>
-        <form id="deny">
-          <button onclick="denyUser('${userKey}')">Deny</button>
-        </form>
-      </td>
-      <td>${user.username}</td>
-      <td>${user.displayname}</td>
-      <td>${user.email}</td>
-    `;
-    userList.appendChild(row);
-    id++;
-  });
-
-  database.ref("users").set(updatedUsers);
-}
+      if (user.confirm === 0) {
+        incomingUserTable.appendChild(row);
+      } else {
+        currentUserTable.appendChild(row);
+      }
+    });
+  }
 
   // Function to confirm a user
   function confirmUser(id) {
     event.preventDefault();
-    if (id >= 0) {
+    if (id >= 0 && id < users.length) {
       users[id].confirm = 1;
+      database.ref("users").set(users);
       renderUsers();
     }
   }
@@ -91,12 +77,12 @@ if (sessionStorage.getItem("token") === "adminpassword") {
   // Function to deny a user
   function denyUser(id) {
     event.preventDefault();
-    if (id >= 0) {
+    if (id >= 0 && id < users.length) {
       users.splice(id, 1);
+      database.ref("users").set(users);
       renderUsers();
     }
   }
-  
 } else {
   alert("Your session has expired. Please log in again.");
 }
