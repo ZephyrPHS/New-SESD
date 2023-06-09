@@ -1,6 +1,8 @@
 var urlParams = new URLSearchParams(window.location.search);
 var studentId = urlParams.get('id');
 var goalsKey;
+var goalRefData;
+const d = new Date();
 var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
@@ -38,6 +40,7 @@ goalsRef.on('value', function(snapshot) {
     editButton.textContent = 'Edit';
     editButton.addEventListener('click', function() {
       showEditForm(childKey,childData);
+      goalRefData=childData;
       goalsKey = childKey;
     });
     actionsCell.appendChild(editButton);
@@ -56,6 +59,8 @@ goalsRef.on('value', function(snapshot) {
     var addNoteButton = document.createElement('button');
     addNoteButton.textContent = 'Add Note';
     addNoteButton.addEventListener('click', function() {
+      goalsKey = childKey;
+      goalRefData = childData;
       addNote();
     });
     actionsCell.appendChild(addNoteButton);
@@ -108,7 +113,15 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   var newCategory = document.getElementById('edit-category').value;
   var newProgress = document.getElementById('edit-progress').value;
   var newNotes = document.getElementById('edit-notes').value;
-
+  if (goalRefData.progress != newProgress) {
+    var newDate = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+    if (goalRefData.notes == "") {
+      newNotes = newDate + ": " + "Updated to " + newProgress+" ";
+    }
+    else{
+      newNotes += "\n" + "|"+newDate + ": " + "Updated to " + newProgress+" ";
+    }
+  }
   database.ref('students/'+studentId+'/'+'goals/' + goalsKey).update({
     name: newName,
     category: newCategory,
@@ -138,11 +151,25 @@ function exportData() {
 var details = document.getElementById("details");
 details.innerHTML = "ID: "+ studentId;
 function addNote(){
-  document.getElementById('add-note-form').style.display = 'block';
+  document.getElementById('note-form').style.display = 'block';
   var newNote = document.getElementById('add-note').value;
   database.ref('students/'+studentId+'/'+'notes/').push(newNote);
   document.getElementById('add-note').value = "";
 }
+function cancelNote(){
+  document.getElementById('note-form').style.display = 'none';
+}
+document.getElementById('note-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  var newNote = " "+ goalRefData.notes+"|"+(d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+": "+document.getElementById('add-note').value+"\n";
+  if (goalRefData.notes == ""){
+    newNote = (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+": "+document.getElementById('add-note').value+"\n";
+  }
+  database.ref('students/'+studentId+'/'+'goals/' + goalsKey).update({
+    notes: newNote});
+  document.getElementById('add-note').value = "";
+  document.getElementById('note-form').style.display = 'none';
+});
 /*
 function checkProgress(goalKey){
   var countComplete = 0;
