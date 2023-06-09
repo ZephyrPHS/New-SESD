@@ -12,8 +12,8 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
 // Function to check if a user already exists with the same email or username
-function isDuplicateUser(users, email, username) {
-  return users.some((user) => user.email === email || user.username === username);
+function isDuplicateUser(users, email, username, displayname) {
+  return users.some((user) => user.email === email || user.username === username || user.displayname === displayname);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -26,16 +26,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Get the input values
     const usernameInput = document.getElementById("username");
+    const displaynameInput = document.getElementById("displayname");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
 
     // Perform validation
     const username = usernameInput.value.trim();
+    const displayname = displaynameInput.value.trim();
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
-    if (username === "" || email === "" || password === "") {
-      alert("Please enter username, email, and password.");
+    if (username === "" || displayname === "" || email === "" || password === "") {
+      alert("Please enter username, display name, email, and password.");
       return;
     }
 
@@ -46,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const existingUsers = snapshot.val() || {};
 
       // Check for duplicate email or username
-      if (isDuplicateUser(Object.values(existingUsers), email, username)) {
+      if (isDuplicateUser(Object.values(existingUsers), email, username, displayname)) {
         alert("A user with the same email or username already exists.");
         return;
       }
@@ -54,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Create a new user object
       const newUser = {
         username: username,
+        displayname: displayname,
         email: email,
         password: password,
         confirm: 0
@@ -67,6 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Clear the form inputs
       usernameInput.value = "";
+      displaynameInput.value = "";
       emailInput.value = "";
       passwordInput.value = "";
 
