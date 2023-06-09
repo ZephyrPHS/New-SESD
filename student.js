@@ -24,6 +24,7 @@ userDataRef.once('value', function(userSnapshot) {
   });
   if (authenticatedUser) {
     userDisplayName = authenticatedUser.displayname;
+    alert(userDisplayName);
   } else {
     alert("Your session has expired. Please log in again.");
   }
