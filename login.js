@@ -60,6 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function generateToken(displayname, email) {
   // Add your JWT token generation logic here
   // This is just a placeholder example
-  const token = displayname + ',' + email;
+  const token = displayname;
   return token;
 }
