@@ -4,90 +4,53 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
   <title>Student Database</title>
   <link rel="stylesheet" type="text/css" href="manage.css">
-  <style>
-    body {margin:0;}
-    
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background-color: #b9a8ce;
-      position: fixed;
-      top: 0;
-      width: 100%;
-    }
-    
-    li {
-      float: left;
-    }
-    
-    li a {
-      display: block;
-      color: white;
-      text-align: center;
-      padding: 14px 16px;
-      text-decoration: none;
-    }
-    
-    li a:hover:not(.active) {
-      background-color: #ae96cb;
-    }
-    
-    .active {
-      background-color: #B9CDDA;
-    }
-    </style>
 </head>
 <body>
-  <ul>
-    <li><a href="https://zephyrphs.github.io/Studata/database">Database</a></li>
-    <li><a href="https://zephyrphs.github.io/Studata/help">Help</a></li>
-    <li><a href="https://zephyrphs.github.io/Studata/contact">Contact</a></li>
-    <li><a href="https://zephyrphs.github.io/Studata/database/manage">Manage</a></li>
-    <li style="float:right"><a class="active" href="https://zephyrphs.github.io/Studata/">Sign Out</a></li>
-  </ul>
-  <h1>Student Database</h1>
+  <nav>
+    <ul>
+      <li><a href="https://zephyrphs.github.io/New-SESD/student_database">Database</a></li>
+      <li><a href="https://zephyrphs.github.io/New-SESD/help">Help</a></li>
+      <li><a href="https://zephyrphs.github.io/New-SESD/contact">Contact</a></li>
+    </ul>
+    <div class="title">IEP NAVIGATOR</div>
+    <a href="https://zephyrphs.github.io/New-SESD/signup" class="sign-out">Sign Out</a>
+  </nav>
+  <div class = "box"></div>
+  <h1>User Management</h1>
   <form id="form"> 
     <input type="search" id="query" name="q" placeholder="Search...">
     <button>Search</button>
   </form>
   
-  <h2>Add Student</h2>
-  <!-- Form to add a new student -->
-  <form id="add-student-form">
-    <label for="add-first-name">First Name:</label>
-    <input type="text" id="add-first-name" required>
-    <label for="add-last-name">Last Name:</label>
-    <input type="text" id="add-last-name" required>
-    <label for="add-studentId">Student ID:</label>
-    <input type="text" id="add-studentId" required>
-    <label for="add-gradeLevel">Grade Level:</label>
-    <select id="add-gradeLevel" required>
-      <option value="9">9</option>
-      <option value="10">10</option>
-      <option value="11">11</option>
-      <option value="12">12</option>
-    </select>
-    <label for="add-primaryDisability">Primary Disability:</label>
-    <input type="text" id="add-primaryDisability" required>
-    <button type="submit">Add</button>
-  </form>
+  <h2>Incoming User Requests</h2>
   
   <!-- Student data table -->
-  <table id="student-table">
+  <table id="incoming-user-table">
     <thead>
       <tr>
-        <th>Edit</th>
-        <th>Name</th>
-        <th>Student ID</th>
-        <th>Grade Level</th>
-        <th>Primary Disability</th>
-        <th>Case Manager</th>
-        <th>Last Annual Review</th>
+        <th>Manage</th>
+        <th>Username</th>
+        <th>Display Name</th>
+        <th>Email</th>
       </tr>
     </thead>
-    <tbody id="student-list">
+    <tbody id="incoming-user-list">
+      <!-- Student records will be dynamically added here -->
+    </tbody>
+  </table>
+  
+  <h2>Current User list</h2>
+  
+  <table id="current-user-table">
+    <thead>
+      <tr>
+        <th>Delete</th>
+        <th>Username</th>
+        <th>Display Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody id="current-user-list">
       <!-- Student records will be dynamically added here -->
     </tbody>
   </table>
