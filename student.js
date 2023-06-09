@@ -14,24 +14,24 @@ var userDataRef = database.ref('users');
 var userDisplayName = "";
 var login = false;
 // check if user exists in database
-userDataRef.once('value', function(snapshot) {
+userDataRef.once('value', function(userSnapshot) {
   let authenticatedUser = null;
-  snapshot.forEach(function(childSnapshot) {
-    var childData = childSnapshot.val();
-    if (childData.displayname === sessionStorage.getItem("token") && childData.confirm == 1) {
-      authenticatedUser = childData;
-      login = true;
+  userSnapshot.forEach(function(userChildSnapshot) {
+    var userChildData = userChildSnapshot.val();
+    if (userChildData.displayname === sessionStorage.getItem("token") && userChildData.confirm == 1) {
+      authenticatedUser = userChildData;
       return true; // Stop iterating through users
     }
   });
-  if (login) {
+  if (authenticatedUser) {
     userDisplayName = authenticatedUser.displayname;
+    login = true;
   } else {
     alert('Invalid username or password. Please try again.');
   }
 });
 // make sure user is logged in
-if(login) {
+if(1==1) {
   var tableRef = document.getElementById('data-table').getElementsByTagName('tbody')[0];
   var dataRef = database.ref('students');
   dataRef.on('value', function(snapshot) {
