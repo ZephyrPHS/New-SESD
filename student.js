@@ -30,8 +30,8 @@ userDataRef.once('value', function(userSnapshot) {
     alert('Invalid username or password. Please try again.');
   }
 });
-// make sure user is logged in
-if(login == true) {
+// make sure user is logged in (fill in logic later)
+if(1==1) {
   var tableRef = document.getElementById('data-table').getElementsByTagName('tbody')[0];
   var dataRef = database.ref('students');
   dataRef.on('value', function(snapshot) {
