@@ -11,7 +11,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 var userDataRef = database.ref('users');
-var userDisplayName = "";
+let userDisplayName = "";
 // check if user exists in database
 userDataRef.once('value', function(userSnapshot) {
   let authenticatedUser = null;
