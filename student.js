@@ -12,7 +12,6 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 var userDataRef = database.ref('users');
 var userDisplayName = "";
-var login = false;
 // check if user exists in database
 userDataRef.once('value', function(userSnapshot) {
   let authenticatedUser = null;
@@ -25,13 +24,12 @@ userDataRef.once('value', function(userSnapshot) {
   });
   if (authenticatedUser) {
     userDisplayName = authenticatedUser.displayname;
-    login = true;
   } else {
-    alert('Invalid username or password. Please try again.');
+    alert("Your session has expired. Please log in again.");
   }
 });
-// make sure user is logged in (fill in logic later)
-if(1==1) {
+// make sure user is logged in
+if(userDisplayName !== "") {
   var tableRef = document.getElementById('data-table').getElementsByTagName('tbody')[0];
   var dataRef = database.ref('students');
   dataRef.on('value', function(snapshot) {
