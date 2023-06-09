@@ -10,22 +10,22 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
-var dataRef = database.ref('users');
+var userDataRef = database.ref('users');
 var userDisplayName = "";
 var login = false;
 // check if user exists in database
-dataRef.once('value', function(snapshot) {
+userDataRef.once('value', function(snapshot) {
   let authenticatedUser = null;
   snapshot.forEach(function(childSnapshot) {
     var childData = childSnapshot.val();
     if (childData.displayname === sessionStorage.getItem("token") && childData.confirm == 1) {
       authenticatedUser = childData;
+      login = true;
       return true; // Stop iterating through users
     }
   });
-  if (authenticatedUser) {
+  if (login) {
     userDisplayName = authenticatedUser.displayname;
-    login = true;
   } else {
     alert('Invalid username or password. Please try again.');
   }
