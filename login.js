@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
         snapshot.forEach(function(childSnapshot) {
           var childData = childSnapshot.val();
 
-          if ((childData.username === username && childData.password === password  && childData.confirm == 1) || ("admin" === username && "password" === password)) {
+          if (childData.username === username && childData.password === password  && childData.confirm == 1) {
             authenticatedUser = childData;
             return true; // Stop iterating through users
           }
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to generate a JWT token
 function generateToken(displayname, email) {
-  // Add your JWT token generation logic here
-  // This is just a placeholder example
+  // Add the JWT token generation logic here
+  // This is just a placeholder
   const token = displayname;
   return token;
 }
