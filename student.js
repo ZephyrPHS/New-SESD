@@ -31,7 +31,7 @@ userDataRef.once('value', function(userSnapshot) {
   }
 });
 // make sure user is logged in
-if(1==1) {
+if(login) {
   var tableRef = document.getElementById('data-table').getElementsByTagName('tbody')[0];
   var dataRef = database.ref('students');
   dataRef.on('value', function(snapshot) {
