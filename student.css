@@ -99,11 +99,9 @@ table th:last-child{
 }
 td {
   text-align: left;
-  white-space: pre;
   padding: 10px;
 }
 td:first-child {
-  
   border-top-left-radius: 10px; 
   border-bottom-left-radius: 10px;
 }

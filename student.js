@@ -18,8 +18,10 @@ dataRef.on('value', function(snapshot) {
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();
     var row = tableRef.insertRow();
-    var nameCell = row.insertCell();
-    nameCell.textContent = childData.name;
+    var firstnameCell = row.insertCell();
+    firstnameCell.textContent = childData.firstName;
+    var lastnameCell = row.insertCell();
+    lastnameCell.textContent = childData.lastName;
     var gradeCell = row.insertCell();
     gradeCell.textContent = childData.grade;
     var idCell = row.insertCell();
@@ -73,14 +75,16 @@ document.getElementById('search-button').addEventListener('click', function() {
 });
 document.getElementById('add-form').addEventListener('submit', function(event) {
     event.preventDefault();
-    var myname = document.getElementById('add-name').value;
+    var myfirst = document.getElementById('add-first').value;
+    var mylast = document.getElementById('add-last').value;
     var mygrade = document.getElementById('add-grade').value;
     var myid = document.getElementById('add-identity').value;
     var mydisability = document.getElementById('add-disability').value;
     var mymanager = document.getElementById('add-manager').value;
     var mydate = document.getElementById('add-date').value;
     var newstudent = {
-        name: myname,
+        firstName: myfirst,
+        lastName: mylast,
         grade: mygrade,
         id: myid,
         disability: mydisability,
@@ -93,7 +97,8 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
 });
 function showEditForm(studentId, studentData) {
   document.getElementById('edit-id').value = studentId;
-  document.getElementById('edit-name').value = studentData.name;
+  document.getElementById('edit-first').value = studentData.firstName;
+  document.getElementById('edit-last').value = studentData.lastName;
   document.getElementById('edit-grade').value = studentData.grade;
   document.getElementById('edit-id').value = studentData.id;
   document.getElementById('edit-disability').value = studentData.disability;
@@ -118,10 +123,12 @@ function searchStudent(){
     snapshot.forEach(function(childSnapshot) {
       var childKey = childSnapshot.key;
       var childData = childSnapshot.val();
-      if (searchRef == childData.name || searchRef == childData.grade || searchRef == childData.id || searchRef == childData.disability || searchRef == childData.manager || searchRef == childData.date){
+      if (searchRef == childData.firstName || searchRef==childData.lastName || searchRef == childData.grade || searchRef == childData.id || searchRef == childData.disability || searchRef == childData.manager || searchRef == childData.date){
         var row = searchTableRef.insertRow();
-        var nameCell = row.insertCell();
-        nameCell.textContent = childData.name;
+        var firstnameCell = row.insertCell();
+        firstnameCell.textContent = childData.firstName;
+        var lastnameCell = row.insertCell();
+        lastnameCell.textContent = childData.lastName;
         var gradeCell = row.insertCell();
         gradeCell.textContent = childData.grade;
         var idCell = row.insertCell();
@@ -164,7 +171,8 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   event.preventDefault();
 
   var studentId = document.getElementById('edit-id').value;
-  var newName = document.getElementById('edit-name').value;
+  var newFirst = document.getElementById('edit-first').value;
+  var newLast = document.getElementById('edit-last').value;
   var newGrade = document.getElementById('edit-grade').value;
   var newId = document.getElementById('edit-id').value;
   var newDisability = document.getElementById('edit-disability').value;
@@ -172,7 +180,8 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   var newDate = document.getElementById('edit-date').value;
 
   database.ref('students/' + studentId).update({
-    name: newName,
+    firstName: newFirst,
+    lastName: newLast,
     grade: newGrade,
     id: newId,
     disability: newDisability,
@@ -190,11 +199,11 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
 function exportData() {
   dataRef.once('value', function(snapshot) {
     var csvContent = "data:text/csv;charset=utf-8,";
-    var headerRow = "Name,Grade,ID,Disability,Manager,Date\r\n";
+    var headerRow = "First,Last,Grade,ID,Disability,Manager,Date\r\n";
     csvContent += headerRow;
     snapshot.forEach(function(childSnapshot) {
       var childData = childSnapshot.val();
-      var csvRow = childData.name + "," + childData.grade + "," + childData.id + "," + childData.disability + "," + childData.manager + "," + childData.date;
+      var csvRow = childData.firstName+","+childData.lastName + "," + childData.grade + "," + childData.id + "," + childData.disability + "," + childData.manager + "," + childData.date;
       csvContent += csvRow + "\r\n";
     });
     var encodedUri = encodeURI(csvContent);
@@ -208,7 +217,7 @@ function exportData() {
 
 function exportStudent(childData){
   var csvContent = "data:text/csv;charset=utf-8,";
-  var csvRow = childData.name + "," + childData.grade + "," + childData.id + "," + childData.disability + "," + childData.manager + "," + childData.date;
+  var csvRow = childData.firstName + ","+ childData.lastName + "," + childData.grade + "," + childData.id + "," + childData.disability + "," + childData.manager + "," + childData.date;
   csvContent += csvRow + "\r\n";
   goalsRef = database.ref('students/' + childData.id + '/goals');
   goalsRef.once('value', function(snapshot) {
@@ -229,7 +238,7 @@ function exportStudent(childData){
   var encodedUri = encodeURI(csvContent);
   var link = document.createElement("a");
   link.setAttribute("href", encodedUri);
-  link.setAttribute("download", childData.name + ".csv");
+  link.setAttribute("download", childData.firstName+"_"+childData.lastName + ".csv");
   document.body.appendChild(link);
   link.click();
 }

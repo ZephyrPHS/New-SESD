@@ -114,10 +114,10 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   var newTarget = document.getElementById('edit-target').value;
   var newNotes = document.getElementById('edit-notes').value;
   if(newCurrent != objData.currentNum){
-    newNotes += "\n" + (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+" Updated current from " + objData.currentNum + " to " + newCurrent;
+    newNotes += (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+" Updated current from " + objData.currentNum + " to " + newCurrent+"\n";
   }
   if(newTarget != objData.target){
-    newNotes += "\n" + (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+" Updated target from " + objData.target + " to " + newTarget;
+    newNotes += (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+" Updated target from " + objData.target + " to " + newTarget+"\n";
   }
   database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+objKey).update({
     name: newName,
