@@ -29,6 +29,7 @@ userDataRef.once('value', function(userSnapshot) {
   }
 });
 // make sure user is logged in
+alert(userDisplayName);
 if(userDisplayName !== "") {
   var tableRef = document.getElementById('data-table').getElementsByTagName('tbody')[0];
   var dataRef = database.ref('students');
