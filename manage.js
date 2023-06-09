@@ -23,6 +23,7 @@ if (sessionStorage.getItem("token") === "adminpassword") {
 
       let userObj = {
         confirm: childData.confirm,
+        displayname: childData.displayname,
         email: childData.email,
         password: childData.password,
         username: childData.username
@@ -35,30 +36,40 @@ if (sessionStorage.getItem("token") === "adminpassword") {
 
   // Function to render the user list
   function renderUsers() {
-    const incomingUserTable = document.getElementById("incoming-user-table");
+    const incomingUserTable = document.getElementById("incoming-user-list");
     incomingUserTable.innerHTML = "";
 
-    const currentUserTable = document.getElementById("current-user-table");
+    const currentUserTable = document.getElementById("current-user-list");
     currentUserTable.innerHTML = "";
 
     users.forEach((user, userKey) => {
       const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>
-          <form id="confirm">
-            <button onclick="confirmUser('${userKey}')">Confirm</button>
-          </form>
-          <form id="deny">
-            <button onclick="denyUser('${userKey}')">Deny</button>
-          </form>
-        </td>
-        <td>${user.username}</td>
-        <td>${user.email}</td>
-      `;
-
       if (user.confirm === 0) {
+        row.innerHTML = `
+          <td>
+            <form id="confirm">
+              <button onclick="confirmUser('${userKey}')">Confirm</button>
+            </form>
+            <form id="deny">
+              <button onclick="denyUser('${userKey}')">Deny</button>
+            </form>
+          </td>
+          <td>${user.username}</td>
+          <td>${user.displayname}</td>
+          <td>${user.email}</td>
+        `;
         incomingUserTable.appendChild(row);
       } else {
+        row.innerHTML = `
+          <td>
+            <form id="delete">
+              <button onclick="denyUser('${userKey}')">Delete</button>
+            </form>
+          </td>
+          <td>${user.username}</td>
+          <td>${user.displayname}</td>
+          <td>${user.email}</td>
+        `;
         currentUserTable.appendChild(row);
       }
     });
