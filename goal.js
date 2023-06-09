@@ -48,7 +48,7 @@ goalsRef.on('value', function(snapshot) {
     });
     actionsCell.appendChild(deleteButton);
     var viewButton = document.createElement('button');
-    viewButton.textContent = 'View Objectives';
+    viewButton.textContent = 'Objectives';
     viewButton.addEventListener('click', function() {
       window.location.href = 'obj_database.html?id=' + studentId+'&goal='+childKey;
     });
