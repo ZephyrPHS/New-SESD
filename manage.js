@@ -1,4 +1,4 @@
-if (sessionStorage.getItem("token") === "crossen") {
+if (sessionStorage.getItem("token") === "Crossen") {
   var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
