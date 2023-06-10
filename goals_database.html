@@ -19,10 +19,11 @@
   <h1>Student Goals</h1>
   <h2 id="details">Student Info</h2><br>
   <button type = "submit" id = "back-goal">Back to Students</button>
+  <button id="add-student-button">Add Goal</button>
+  <button type = "submit" onclick = "exportData()">Export Goals List</button><br>
   <button type = "submit" id = "view-timeline">View Timeline</button>
   <button type = "submit" id = "hide-timeline" style="display:none">Hide Timeline</button>
-  <button type = "submit" onclick = "exportData()">Export as CSV</button>
-  <button id="add-student-button">Add Goal</button>
+  <button type = "submit" onclick = "exportTimeline()">Export Timeline</button>
   <h3 id="timeline-label" style="display:none">Completion Timeline</h3>
   <div class="timeline" id="goal-timeline" style="display:none"></div>
   <form id="edit-form" style="display: none;">

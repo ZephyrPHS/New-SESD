@@ -2,6 +2,7 @@ var urlParams = new URLSearchParams(window.location.search);
 var studentId = urlParams.get('id');
 var goalsKey;
 var goalRefData;
+var timelineCSV = "data:text/csv;charset=utf-8,";
 const d = new Date();
 var items = document.getElementsByClassName("timeline-item");
 var firebaseConfig = {
@@ -95,6 +96,11 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
         completion:(d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear()
       })
     }
+    var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+    var csvRow = date+","+"Created"+","+myname;
+    timelineCSV+=csvRow+"\r\n";
+    csvRow = date+","+myprogress+","+myname;
+    timelineCSV+=csvRow+"\r\n";
     document.getElementById('add-form').reset();
     document.getElementById('add-form').style.display = 'none';
 });
@@ -121,6 +127,8 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   var newNotes = document.getElementById('edit-notes').value;
   if (goalRefData.progress != newProgress) {
     var newDate = (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear();
+    csvRow = newDate+","+newProgress+","+newName;
+    timelineCSV+=csvRow+"\r\n";
     if (goalRefData.notes == "") {
       newNotes = newDate + ": " + "Updated to " + newProgress+" ";
     }
@@ -217,3 +225,11 @@ document.getElementById('hide-timeline').addEventListener('click', function() {
   document.getElementById('hide-timeline').style.display = 'none';
   document.getElementById('view-timeline').style.display = 'inline';
 });
+function exportTimeline(){
+  var encodedUri = encodeURI(timelineCSV);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "timeline.csv");
+  document.body.appendChild(link);
+  link.click();
+}
