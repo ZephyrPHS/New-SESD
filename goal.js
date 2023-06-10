@@ -90,6 +90,11 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
         notes: mynotes
     };
     database.ref('students/'+studentId+'/'+'goals/').child(mynum).set(newgoal);
+    if(myprogress == "Achieved"){
+      database.ref('students/'+studentId+'/'+'goals/' + mynum).update({
+        completion:(d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear()
+      })
+    }
     document.getElementById('add-form').reset();
     document.getElementById('add-form').style.display = 'none';
 });
@@ -115,13 +120,18 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   var newProgress = document.getElementById('edit-progress').value;
   var newNotes = document.getElementById('edit-notes').value;
   if (goalRefData.progress != newProgress) {
-    var newDate = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+    var newDate = (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear();
     if (goalRefData.notes == "") {
       newNotes = newDate + ": " + "Updated to " + newProgress+" ";
     }
     else{
       newNotes += "\n" + "|"+newDate + ": " + "Updated to " + newProgress+" ";
     }
+  }
+  if(newProgress == "Achieved"){
+    database.ref('students/'+studentId+'/'+'goals/' + goalsKey).update({
+      completion:(d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear()
+    })
   }
   database.ref('students/'+studentId+'/'+'goals/' + goalsKey).update({
     name: newName,
@@ -169,4 +179,41 @@ document.getElementById('note-form').addEventListener('submit', function(event) 
   document.getElementById('add-note').value = "";
   document.getElementById('note-form').style.display = 'none';
 });
-
+function addTimeline(timelineGoal){
+  var newDivision = document.createElement("div");
+  var divisionContent = document.createTextNode(timelineGoal[1]+": " + timelineGoal[0]);
+  newDivision.appendChild(divisionContent);
+  var timelineDivision = document.getElementById("goal-timeline");
+  timelineDivision.appendChild(newDivision);
+}
+document.getElementById('view-timeline').addEventListener('click', function() {
+  document.getElementById('goal-timeline').style.display = 'block';
+  document.getElementById('timeline-label').style.display = 'block';
+  document.getElementById('view-timeline').style.display = 'none';
+  document.getElementById('hide-timeline').style.display = 'inline';
+  var goals = [];
+  goalsRef.once('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      var childData = childSnapshot.val();
+      if(childData.progress == "Achieved"){
+        goals.push([childData.name,childData.completion]);
+      }
+      
+    });
+  });
+  goals.sort(function(a, b) {
+    var dateA = new Date(a[1]);
+    var dateB = new Date(b[1]);
+    return dateA - dateB;
+  });
+  for (var i = 0; i < goals.length; i++) {
+    addTimeline(goals[i]);
+  }
+});
+document.getElementById('hide-timeline').addEventListener('click', function() {
+  document.getElementById('goal-timeline').style.display = 'none';
+  document.getElementById('timeline-label').style.display = 'none';
+  document.getElementById('goal-timeline').innerHTML = "";
+  document.getElementById('hide-timeline').style.display = 'none';
+  document.getElementById('view-timeline').style.display = 'inline';
+});
