@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
       passwordInput.value = "";
 
       alert(
-        "Account creation request has been sent to the RTSE and is waiting approval. You may close this page."
+        "Account creation request has been sent to the RTSE and is awaiting approval. You may close this page."
       ); // send request to RTSE
     });
   });
