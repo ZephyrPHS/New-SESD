@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (authenticatedUser) {
           const token = generateToken(authenticatedUser.displayname, authenticatedUser.email);
           sessionStorage.setItem("token", token);
-          window.location.href = 'https://zephyrphs.github.io/New-SESD/student_database';
+          window.location.href = 'student_database.html';
         } else {
           alert('Invalid username or password. Please try again.');
         }

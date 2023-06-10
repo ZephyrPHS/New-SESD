@@ -169,20 +169,4 @@ document.getElementById('note-form').addEventListener('submit', function(event) 
   document.getElementById('add-note').value = "";
   document.getElementById('note-form').style.display = 'none';
 });
-/*
-function checkProgress(goalKey){
-  var countComplete = 0;
-  var countObj = 0;
-  goalsRef.child().on('value', function(snapshot) {
-    countObj++;
-    var childData = snapshot.val();
-    var progress = childData.progress;
-    if(progress == "Complete"){
-      count++;
-    }
-  });
-  var percent = countComplete/countObj;
-  database.ref('students/'+studentId+'/'+'goals/'+goalKey).update({
-    progress: percent
-  });
-}*/
+
