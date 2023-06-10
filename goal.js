@@ -153,8 +153,6 @@ details.innerHTML = "ID: "+ studentId;
 function addNote(){
   document.getElementById('note-form').style.display = 'block';
   var newNote = document.getElementById('add-note').value;
-  database.ref('students/'+studentId+'/'+'notes/').push(newNote);
-  document.getElementById('add-note').value = "";
 }
 function cancelNote(){
   document.getElementById('note-form').style.display = 'none';

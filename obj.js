@@ -53,6 +53,14 @@ objRef.on('value', function(snapshot) {
         database.ref('students/'+studentId+'/'+'goals/' + goalNo +'/'+'objectives/'+childKey).remove()
     });
     actionsCell.appendChild(deleteButton);
+    var addNoteButton = document.createElement('button');
+    addNoteButton.textContent = 'Add Note';
+    addNoteButton.addEventListener('click', function() {
+      objKey = childKey;
+      objData = childData;
+      addNote();
+    });
+    actionsCell.appendChild(addNoteButton);
   });
 });
 document.getElementById('add-student-button').addEventListener('click', function() {
@@ -114,7 +122,7 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   var newTarget = document.getElementById('edit-target').value;
   var newNotes = document.getElementById('edit-notes').value;
   if(newCurrent != objData.currentNum){
-    newNotes += (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+" Updated current from " + objData.currentNum + " to " + newCurrent+"\n";
+    newNotes += (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+" Updated current from " + objData.currentNum + " to " + newCurrent+"\n" +"|";
   }
   if(newTarget != objData.target){
     newNotes += (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+" Updated target from " + objData.target + " to " + newTarget+"\n";
@@ -162,3 +170,21 @@ function exportData() {
 }
 var details = document.getElementById("details");
 details.innerHTML = "ID #: "+ studentId+ " "+ "Goal #: "+ goalNo;
+function addNote(){
+  document.getElementById('note-form').style.display = 'block';
+  var newNote = document.getElementById('add-note').value;
+}
+function cancelNote(){
+  document.getElementById('note-form').style.display = 'none';
+}
+document.getElementById('note-form').addEventListener('submit', function(event) {
+  event.preventDefault();
+  var newNote = " "+ goalRefData.notes+"|"+(d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+": "+document.getElementById('add-note').value+"\n";
+  if (goalRefData.notes == ""){
+    newNote = (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+": "+document.getElementById('add-note').value+"\n";
+  }
+  database.ref('students/'+studentId+'/'+'goals/' + goalsKey+'/objectives/'+objKey).update({
+    notes: newNote});
+  document.getElementById('add-note').value = "";
+  document.getElementById('note-form').style.display = 'none';
+});
