@@ -12,6 +12,7 @@ firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 var userDataRef = database.ref('users');
 let userDisplayName = "";
+var dataRef = database.ref('students');
 // check if user exists in database
 userDataRef.once('value', function(userSnapshot) {
   let authenticatedUser = null;
@@ -30,7 +31,6 @@ userDataRef.once('value', function(userSnapshot) {
 // make sure user is logged in
   if(userDisplayName !== "") {
     var tableRef = document.getElementById('data-table').getElementsByTagName('tbody')[0];
-    var dataRef = database.ref('students');
     dataRef.on('value', function(snapshot) {
       tableRef.innerHTML = '';
       snapshot.forEach(function(childSnapshot) {
