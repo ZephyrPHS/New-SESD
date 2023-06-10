@@ -2,7 +2,7 @@ var urlParams = new URLSearchParams(window.location.search);
 var studentId = urlParams.get('id');
 var goalsKey;
 var goalRefData;
-var timelineCSV = "data:text/csv;charset=utf-8,";
+var timelineData;
 const d = new Date();
 var items = document.getElementsByClassName("timeline-item");
 var firebaseConfig = {
@@ -21,51 +21,62 @@ var tableRef = document.getElementById('data-table').getElementsByTagName('tbody
 var dataRef = database.ref('students');
 var studentRef = dataRef.child(studentId);
 var goalsRef = studentRef.child('goals');
+var timelineCSV = goalsRef.child('timeline');
 goalsRef.on('value', function(snapshot) {
   tableRef.innerHTML = '';
+  var newRef = snapshot.val();
   snapshot.forEach(function(childSnapshot) {
     var childKey = childSnapshot.key;
     var childData = childSnapshot.val();
-    var row = tableRef.insertRow();
-    var numCell = row.insertCell();
-    numCell.textContent = childKey;
-    var nameCell = row.insertCell();
-    nameCell.textContent = childData.name;
-    var categoryCell = row.insertCell();
-    categoryCell.textContent = childData.category;
-    var progressCell = row.insertCell();
-    progressCell.textContent = childData.progress;
-    var notesCell = row.insertCell();
-    notesCell.textContent = childData.notes;
-    var actionsCell = row.insertCell();
-    var editButton = document.createElement('button');
-    editButton.textContent = 'Edit';
-    editButton.addEventListener('click', function() {
-      showEditForm(childKey,childData);
-      goalRefData=childData;
-      goalsKey = childKey;
-    });
-    actionsCell.appendChild(editButton);
-    var deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete';
-    deleteButton.addEventListener('click', function() {
-        database.ref('students/'+studentId+'/'+'goals/' + childKey).remove()
-    });
-    actionsCell.appendChild(deleteButton);
-    var viewButton = document.createElement('button');
-    viewButton.textContent = 'Objectives';
-    viewButton.addEventListener('click', function() {
-      window.location.href = 'obj_database.html?id=' + studentId+'&goal='+childKey;
-    });
-    actionsCell.appendChild(viewButton);
-    var addNoteButton = document.createElement('button');
-    addNoteButton.textContent = 'Add Note';
-    addNoteButton.addEventListener('click', function() {
-      goalsKey = childKey;
-      goalRefData = childData;
-      addNote();
-    });
-    actionsCell.appendChild(addNoteButton);
+    if (childKey != "timeline"){
+      var row = tableRef.insertRow();
+      var numCell = row.insertCell();
+      numCell.textContent = childKey;
+      var nameCell = row.insertCell();
+      nameCell.textContent = childData.name;
+      var categoryCell = row.insertCell();
+      categoryCell.textContent = childData.category;
+      var progressCell = row.insertCell();
+      progressCell.textContent = childData.progress;
+      var notesCell = row.insertCell();
+      notesCell.textContent = childData.notes;
+      var actionsCell = row.insertCell();
+      var editButton = document.createElement('button');
+      editButton.textContent = 'Edit';
+      editButton.addEventListener('click', function() {
+        showEditForm(childKey,childData);
+        goalRefData=childData;
+        goalsKey = childKey;
+      });
+      actionsCell.appendChild(editButton);
+      var deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.addEventListener('click', function() {
+          database.ref('students/'+studentId+'/'+'goals/' + childKey).remove()
+          var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+          var csvRow = date+","+"Deleted"+","+childData.name;
+          var newTimeline = timelineData + csvRow + "\r\n";
+          database.ref('students/'+studentId+'/'+'goals/timeline').set(newTimeline);
+      });
+      actionsCell.appendChild(deleteButton);
+      var viewButton = document.createElement('button');
+      viewButton.textContent = 'Objectives';
+      viewButton.addEventListener('click', function() {
+        window.location.href = 'obj_database.html?id=' + studentId+'&goal='+childKey;
+      });
+      actionsCell.appendChild(viewButton);
+      var addNoteButton = document.createElement('button');
+      addNoteButton.textContent = 'Add Note';
+      addNoteButton.addEventListener('click', function() {
+        goalsKey = childKey;
+        goalRefData = childData;
+        addNote();
+      });
+      actionsCell.appendChild(addNoteButton);
+    }
+    else{
+      timelineData = childData;
+    }
   });
 });
 document.getElementById('add-student-button').addEventListener('click', function() {
@@ -98,9 +109,11 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
     }
     var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
     var csvRow = date+","+"Created"+","+myname;
-    timelineCSV+=csvRow+"\r\n";
-    csvRow = date+","+myprogress+","+myname;
-    timelineCSV+=csvRow+"\r\n";
+    var newTimeline = timelineData + csvRow + "\r\n";
+    database.ref('students/'+studentId+'/'+'goals/timeline').set(newTimeline);
+    var csvRow = date+","+myprogress+","+myname;
+    var newTimeline = timelineData + csvRow + "\r\n";
+    database.ref('students/'+studentId+'/'+'goals/timeline').set(newTimeline);
     document.getElementById('add-form').reset();
     document.getElementById('add-form').style.display = 'none';
 });
@@ -127,8 +140,9 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   var newNotes = document.getElementById('edit-notes').value;
   if (goalRefData.progress != newProgress) {
     var newDate = (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear();
-    csvRow = newDate+","+newProgress+","+newName;
-    timelineCSV+=csvRow+"\r\n";
+    var csvRow = newDate+","+newProgress+","+newName;
+    var newTimeline = timelineData + csvRow + "\r\n";
+    database.ref('students/'+studentId+'/'+'goals/timeline').set(newTimeline);
     if (goalRefData.notes == "") {
       newNotes = newDate + ": " + "Updated to " + newProgress+" ";
     }
@@ -226,7 +240,7 @@ document.getElementById('hide-timeline').addEventListener('click', function() {
   document.getElementById('view-timeline').style.display = 'inline';
 });
 function exportTimeline(){
-  var encodedUri = encodeURI(timelineCSV);
+  var encodedUri = encodeURI(timelineData);
   var link = document.createElement("a");
   link.setAttribute("href", encodedUri);
   link.setAttribute("download", "timeline.csv");

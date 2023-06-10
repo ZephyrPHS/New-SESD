@@ -113,6 +113,7 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
         date: mydate
     };
     database.ref("students").child(myid).set(newstudent);
+    database.ref('students/'+myid+'/'+'goals/').child("timeline").set("data:text/csv;charset=utf-8,");
     document.getElementById('add-form').reset();
     document.getElementById('add-form').style.display = 'none';
 });
