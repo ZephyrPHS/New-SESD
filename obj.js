@@ -179,11 +179,11 @@ function cancelNote(){
 }
 document.getElementById('note-form').addEventListener('submit', function(event) {
   event.preventDefault();
-  var newNote = " "+ goalRefData.notes+"|"+(d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+": "+document.getElementById('add-note').value+"\n";
-  if (goalRefData.notes == ""){
+  var newNote = " "+ objData.notes+"|"+(d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+": "+document.getElementById('add-note').value+"\n";
+  if (objData.notes == ""){
     newNote = (d.getMonth()+1)+"-"+(d.getDate())+"-"+d.getFullYear()+": "+document.getElementById('add-note').value+"\n";
   }
-  database.ref('students/'+studentId+'/'+'goals/' + goalsKey+'/objectives/'+objKey).update({
+  database.ref('students/'+studentId+'/'+'goals/' + goalNo+'/objectives/'+objKey).update({
     notes: newNote});
   document.getElementById('add-note').value = "";
   document.getElementById('note-form').style.display = 'none';

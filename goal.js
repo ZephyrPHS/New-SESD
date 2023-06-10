@@ -3,6 +3,7 @@ var studentId = urlParams.get('id');
 var goalsKey;
 var goalRefData;
 const d = new Date();
+var items = document.getElementsByClassName("timeline-item");
 var firebaseConfig = {
     apiKey: "AIzaSyDaGflOJidMjEghcK9xpqYBH6YI-nOSuvw",
     authDomain: "zephyr-studata.firebaseapp.com",
