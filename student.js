@@ -10,25 +10,25 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
-// var userDataRef = database.ref('users');
-// let userDisplayName = "";
-// // check if user exists in database
-// userDataRef.once('value', function(userSnapshot) {
-//   let authenticatedUser = null;
-//   userSnapshot.forEach(function(userChildSnapshot) {
-//     var userChildData = userChildSnapshot.val();
-//     if (userChildData.displayname === sessionStorage.getItem("token") && userChildData.confirm == 1) {
-//       authenticatedUser = userChildData;
-//       return true; // Stop iterating through users
-//     }
-//   });
-//   if (authenticatedUser) {
-//     userDisplayName = authenticatedUser.displayname;
-//   } else {
-//     alert("Your session has expired. Please log in again.");
-//   }
-//   // make sure user is logged in
-//   if(userDisplayName !== "") {
+var userDataRef = database.ref('users');
+let userDisplayName = "";
+// check if user exists in database
+userDataRef.once('value', function(userSnapshot) {
+  let authenticatedUser = null;
+  userSnapshot.forEach(function(userChildSnapshot) {
+    var userChildData = userChildSnapshot.val();
+    if (userChildData.displayname === sessionStorage.getItem("token") && userChildData.confirm == 1) {
+      authenticatedUser = userChildData;
+      return true; // Stop iterating through users
+    }
+  });
+  if (authenticatedUser) {
+    userDisplayName = authenticatedUser.displayname;
+  } else {
+    alert("Your session has expired. Please log in again.");
+  }
+// make sure user is logged in
+  if(userDisplayName !== "") {
     var tableRef = document.getElementById('data-table').getElementsByTagName('tbody')[0];
     var dataRef = database.ref('students');
     dataRef.on('value', function(snapshot) {
@@ -261,5 +261,5 @@ var database = firebase.database();
       document.body.appendChild(link);
       link.click();
     }
-//   }
-// });
+  }
+});
