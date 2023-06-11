@@ -114,7 +114,9 @@ td:last-child {
   border-bottom-right-radius: 10px; 
   border-top-right-radius: 10px; 
 }
-
+table tr{
+  height:20px;
+}
 table tr:nth-child(odd) {
   background-color: #eaebf1f3;
 }

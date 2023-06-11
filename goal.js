@@ -54,7 +54,7 @@ goalsRef.on('value', function(snapshot) {
       deleteButton.addEventListener('click', function() {
           database.ref('students/'+studentId+'/'+'goals/' + childKey).remove()
           var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-          var csvRow = date+","+"Deleted"+","+childData.name;
+          var csvRow = date+","+childData.name+","+"Deleted";
           var newTimeline = timelineData + csvRow + "\r\n";
           database.ref('students/'+studentId+'/'+'goals/timeline').set(newTimeline);
       });
@@ -108,10 +108,10 @@ document.getElementById('add-form').addEventListener('submit', function(event) {
       })
     }
     var date = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-    var csvRow = date+","+"Created"+","+myname;
+    var csvRow = date+","+myname+","+"Created";
     var newTimeline = timelineData + csvRow + "\r\n";
     database.ref('students/'+studentId+'/'+'goals/timeline').set(newTimeline);
-    var csvRow = date+","+myprogress+","+myname;
+    var csvRow = date+","+myname+","+myprogress;
     var newTimeline = timelineData + csvRow + "\r\n";
     database.ref('students/'+studentId+'/'+'goals/timeline').set(newTimeline);
     document.getElementById('add-form').reset();
@@ -140,7 +140,7 @@ document.getElementById('edit-form').addEventListener('submit', function(event) 
   var newNotes = document.getElementById('edit-notes').value;
   if (goalRefData.progress != newProgress) {
     var newDate = (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear();
-    var csvRow = newDate+","+newProgress+","+newName;
+    var csvRow = newDate+","+newName+","+newProgress;
     var newTimeline = timelineData + csvRow + "\r\n";
     database.ref('students/'+studentId+'/'+'goals/timeline').set(newTimeline);
     if (goalRefData.notes == "") {
@@ -198,6 +198,10 @@ document.getElementById('note-form').addEventListener('submit', function(event) 
   }
   database.ref('students/'+studentId+'/'+'goals/' + goalsKey).update({
     notes: newNote});
+  var newDate = (d.getMonth() + 1) + "-" + d.getDate() + "-" + d.getFullYear();
+  var csvRow = newDate+","+goalRefData.name+","+document.getElementById('add-note').value;
+  var newTimeline = timelineData + csvRow + "\r\n";
+  database.ref('students/'+studentId+'/'+'goals/timeline').set(newTimeline);
   document.getElementById('add-note').value = "";
   document.getElementById('note-form').style.display = 'none';
 });
